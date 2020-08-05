@@ -29,8 +29,6 @@ public class HomeController {
     @PreAuthorize("isAnonymous()")
     @PageTitle("index")
     public String index(){
-        List<JobServiceModel> jobServiceModel = this.jobService.findAll().stream().filter(e -> LocalDate.now().compareTo(e.getExpireOn()) > 0).collect(Collectors.toList());
-        System.out.println(jobServiceModel.size());
         return "index";
     }
 

@@ -85,7 +85,7 @@ public class VehicleServiceImpl implements VehicleService {
         if (vehicle.getUser().getUsername().equals(auth.getName()) || auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_MODERATOR"))) {
             vehicleServiceModel.setAddedOn(vehicle.getAddedOn());
             vehicleServiceModel.setExpireOn(vehicle.getExpireOn());
-            vehicleServiceModel.setActive(true);
+            vehicleServiceModel.setActive(vehicle.isActive());
             vehicleServiceModel.setUsername(vehicle.getUsername());
             vehicleServiceModel.setUser(this.modelMapper.map(vehicle.getUser(), UserServiceModel.class));
             vehicleServiceModel.setImageUrl(vehicle.getImageUrl());
@@ -107,11 +107,10 @@ public class VehicleServiceImpl implements VehicleService {
         Vehicle vehicle = this.vehicleRepository.findById(id).orElseThrow(() -> new VehicleNotFoundException(JOB_NOT_FOUND));
         VehicleServiceModel vehicleServiceModel = this.modelMapper.map(vehicle, VehicleServiceModel.class);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println();
         if (vehicleServiceModel.getUser().getUsername().equals(auth.getName()) || auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_MODERATOR"))) {
             if (LocalDate.now().compareTo(vehicleServiceModel.getExpireOn()) > 0) {
-                System.out.println();
                 vehicleServiceModel.setExpireOn(vehicleServiceModel.getExpireOn().plus(10, ChronoUnit.DAYS));
+                vehicleServiceModel.setAddedOn(LocalDate.now());
                 vehicleServiceModel.setActive(true);
                 vehicleServiceModel.setEngine(vehicle.getEngine().name());
                 vehicleServiceModel.setTransmission(vehicle.getTransmission().name());

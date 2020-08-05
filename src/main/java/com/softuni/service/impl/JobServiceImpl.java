@@ -84,7 +84,7 @@ public class JobServiceImpl implements JobService {
             jobServiceModel.setAddedOn(job.getAddedOn());
             jobServiceModel.setUsername(job.getUsername());
             jobServiceModel.setExpireOn(job.getExpireOn());
-            jobServiceModel.setActive(true);
+            jobServiceModel.setActive(job.isActive());
             jobServiceModel.setUser(this.modelMapper.map(job.getUser(), UserServiceModel.class));
             this.jobRepository.saveAndFlush(this.modelMapper.map(jobServiceModel, Job.class));
         } else {
@@ -106,11 +106,10 @@ public class JobServiceImpl implements JobService {
         JobServiceModel jobServiceModel = this.modelMapper.map(job, JobServiceModel.class);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (jobServiceModel.getUser().getUsername().equals(auth.getName()) || auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            System.out.println();
 
             if (LocalDate.now().compareTo(jobServiceModel.getExpireOn()) > 0) {
-                System.out.println();
                 jobServiceModel.setExpireOn(jobServiceModel.getExpireOn().plus(10, ChronoUnit.DAYS));
+                jobServiceModel.setAddedOn(LocalDate.now());
                 jobServiceModel.setActive(true);
                 jobServiceModel.setJobLevel(job.getJobLevel().name());
                 jobServiceModel.setJobType(job.getJobType().name());

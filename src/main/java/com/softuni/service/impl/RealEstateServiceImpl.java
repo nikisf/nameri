@@ -80,7 +80,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         if (realEstate.getUser().getUsername().equals(auth.getName()) || auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_MODERATOR"))){
             realEstateServiceModel.setAddedOn(realEstate.getAddedOn());
             realEstateServiceModel.setExpireOn(realEstate.getExpireOn());
-            realEstateServiceModel.setActive(true);
+            realEstateServiceModel.setActive(realEstate.isActive());
             realEstateServiceModel.setUser(this.modelMapper.map(realEstate.getUser(), UserServiceModel.class));
             realEstateServiceModel.setImageUrl(realEstate.getImageUrl());
             this.realEstateRepository.saveAndFlush(this.modelMapper.map(realEstateServiceModel, RealEstate.class));
@@ -101,12 +101,11 @@ public class RealEstateServiceImpl implements RealEstateService {
         RealEstate realEstate = this.realEstateRepository.findById(id).orElseThrow(() -> new RealEstateNotFoundException(JOB_NOT_FOUND));
         RealEstateServiceModel realEstateServiceModel = this.modelMapper.map(realEstate, RealEstateServiceModel.class);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println();
         if (realEstateServiceModel.getUser().getUsername().equals(auth.getName()) || auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
 
             if (LocalDate.now().compareTo(realEstateServiceModel.getExpireOn()) > 0) {
-                System.out.println();
                 realEstateServiceModel.setExpireOn(realEstateServiceModel.getExpireOn().plus(10, ChronoUnit.DAYS));
+                realEstateServiceModel.setAddedOn(LocalDate.now());
                 realEstateServiceModel.setActive(true);
                 realEstateServiceModel.setRealEstateType(realEstate.getRealEstateType().name());
                 realEstateServiceModel.setRegion(realEstate.getRegion().name());

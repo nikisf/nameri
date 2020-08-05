@@ -80,7 +80,7 @@ public class RealEstateController {
         }
         RealEstateServiceModel realEstateServiceModel = this.realEstateService.findById(id, "no");
         RealEstateEditBindingModel realEstateEditBindingModel = this.modelMapper.map(realEstateServiceModel, RealEstateEditBindingModel.class);
-        model.addAttribute("realEstateServiceModel", realEstateEditBindingModel);
+        model.addAttribute("realEstateEditBindingModel", realEstateEditBindingModel);
 
         return "real-estates/real-estate-edit";
     }
@@ -114,7 +114,7 @@ public class RealEstateController {
     @PreAuthorize("isAuthenticated()")
     public ModelAndView renew(@PathVariable String id, ModelAndView modelAndView){
         this.realEstateService.renew(id);
-        modelAndView.setViewName("redirect:/my-vehicles");
+        modelAndView.setViewName("redirect:/my-real-estates");
         return modelAndView;
     }
 }

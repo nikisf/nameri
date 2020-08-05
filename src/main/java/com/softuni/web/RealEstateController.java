@@ -80,7 +80,7 @@ public class RealEstateController {
         }
         RealEstateServiceModel realEstateServiceModel = this.realEstateService.findById(id, "no");
         RealEstateEditBindingModel realEstateEditBindingModel = this.modelMapper.map(realEstateServiceModel, RealEstateEditBindingModel.class);
-        model.addAttribute("realEstateServiceModel", realEstateServiceModel);
+        model.addAttribute("realEstateServiceModel", realEstateEditBindingModel);
 
         return "real-estates/real-estate-edit";
     }

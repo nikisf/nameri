@@ -81,6 +81,7 @@ public class RealEstateServiceImpl implements RealEstateService {
             realEstateServiceModel.setAddedOn(realEstate.getAddedOn());
             realEstateServiceModel.setExpireOn(realEstate.getExpireOn());
             realEstateServiceModel.setActive(realEstate.isActive());
+            realEstateServiceModel.setUsername(realEstate.getUsername());
             realEstateServiceModel.setUser(this.modelMapper.map(realEstate.getUser(), UserServiceModel.class));
             realEstateServiceModel.setImageUrl(realEstate.getImageUrl());
             this.realEstateRepository.saveAndFlush(this.modelMapper.map(realEstateServiceModel, RealEstate.class));

@@ -27,6 +27,10 @@
                                 <div class="col col-md-6 mt-2 ">
                                     <table class="table rounded table-responsive-xl text-center" id="table_id">
                                         <tr>
+                                            <th colspan="2" scope="row">Телефон за контакт:</th>
+                                            <td colspan="2" th:text="${realEstateViewModel.phoneNumber}"></td>
+                                        </tr>
+                                        <tr>
                                             <th scope="row">Вид</th>
                                             <td th:text="${realEstateViewModel.realEstateType}"></td>
                                             <th scope="row">Регион:</th>
@@ -37,10 +41,6 @@
                                             <td th:text="${realEstateViewModel.area}"></td>
                                             <th scope="row">Цена:</th>
                                             <td th:text="${realEstateViewModel.price}"></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Телефон за контакт:</th>
-                                            <td th:text="${realEstateViewModel.phoneNumber}"></td>
                                         </tr>
 
                                     </table>

@@ -34,7 +34,7 @@ public class SchedulingServiceImpl implements SchedulingService {
         this.realEstateService = realEstateService;
     }
 
-    @Scheduled(cron = "0 30 13 * * ?")
+    @Scheduled(cron = "0 10 00 * * ?")
     @Override
     public void findOldAds() {
         LocalDate date = LocalDate.now();

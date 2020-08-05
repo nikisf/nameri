@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="/css/error.css">
+    <title>Нещо се обърка</title>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+<!------ Include the above in your HEAD tag ---------->
+<div class="" id="home">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-xl navbar-light bg-light rounded">
+                    <th:block sec:authorize="isAnonymous()">
+                    <th:block th:include="~{/fragments/guest-nav}"></th:block>
+                        </th:block>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <th:block th:include="~{/fragments/nav}"></th:block>
+                    </th:block>
+                </nav>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="error-template">
+                        <h1  style="color: white">
+                            Oops!</h1>
+                        <h2 style="color: white">
+                            Something went wrong.</h2>
+                        <div class="error-details">
+                            <h3 th:text="${message}" style="color: red"></h3>
+                        </div>
+                        <div class="error-actions">
+                            <a href="javascript:history.back()" class="btn btn-primary btn-lg" style="color: #20c997"><span
+                                    class="glyphicon glyphicon-home"></span>
+                                Върни се обратно</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="row">
+            <th:block th:include="~{/fragments/footer}"></th:block>
+        </footer>
+    </div>
+</div>
+
+</html>
+
+
+

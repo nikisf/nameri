@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+
+</head>
+
+<body id="reportsPage">
+<div class="" id="home">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-xl navbar-light bg-light rounded">
+                    <th:block th:include="~{/fragments/nav}"></th:block>
+                </nav>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="container">
+            <div class="row tm-mt-big">
+                <div class="col-lg-12 col-md-12 mb-4">
+                    <div class="bg-white tm-block h-100">
+                        <div class="row">
+                            <div class="col-8">
+                                <h2 class="tm-block-title d-inline-block">Обяви</h2>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="jobs"
+                                       value="option1">
+                                <label class="form-check-label" for="jobs">Обяви в работа</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="vehicles"
+                                       value="option2">
+                                <label class="form-check-label" for="vehicles">Обяви в превозни средства</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="realEstates"
+                                       value="option2">
+                                <label class="form-check-label" for="realEstates">Обяви в недвижими имоти</label>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                        <table class="table table-hover mx-auto text-center" id="table_id">
+                            <thead>
+                            <tr>
+                                <th>Добавено на</th>
+                                <th>Валидно до</th>
+                                <th>Снимка</th>
+                                <th>Заглавие</th>
+                                <th>Детайли</th>
+                            </tr>
+                            </thead>
+                            <tbody id="ads">
+
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <footer class="row">
+            <th:block th:include="~{/fragments/footer}"></th:block>
+        </footer>
+    </div>
+</div>
+<script src="/js/ads.js"></script>
+</body>
+</html>

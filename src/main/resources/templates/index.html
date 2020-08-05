@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+
+<body id="reportsPage">
+<div id="home">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-xl navbar-light bg-light rounded">
+                    <th:block th:include="~{/fragments/guest-nav}"></th:block>
+                </nav>
+            </div>
+        </div>
+
+        <div class="container mt-lg-5 border-right border-bottom bg-transparent h-100">
+            <h1 class="w-100 text-light text-center">Добре дошли</h1>
+               <br>
+
+                <img class="img-fluid rounded mx-auto d-block" src="https://sliven.net/upload/category/ads.jpg"
+                     alt="Vehicle">
+                <p class="w-100 text-light text-center">За да публикувате обява или да прегледате текущите трябва да се логнете</p>
+
+
+        </div>
+        <footer class="row">
+            <th:block th:include="~{/fragments/footer}"></th:block>
+        </footer>
+    </div>
+</div>
+
+</body>
+</html>

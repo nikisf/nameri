@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+
+<body>
+<div class="container ">
+    <nav class="navbar navbar-expand-xl navbar-light bg-light rounded">
+        <th:block th:include="~{/fragments/nav}"></th:block>
+    </nav>
+    <div class="row tm-mt-big">
+        <div class="col-12 mx-auto tm-login-col">
+            <div class="bg-white tm-block">
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <form th:action="@{/users/edit-profile}" th:method="POST" th:object="${userProfileEditBindingModel}" class="tm-login-form">
+                            <div class="input-group">
+                                <label for="username" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Потребителско име</label>
+                                <input  name="username" type="text"
+                                       class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7"
+                                       id="username" placeholder="Enter username" readonly th:value="*{username}">
+
+                            </div>
+
+                            <div class="input-group mt-3">
+                                <label for="oldPassword" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Текуща Парола</label>
+                                <input name="oldPassword" type="password" class="form-control validate"
+                                       id="oldPassword" placeholder="Enter password">
+                                <div class="mx-auto">
+                                    <th:block th:if="${#fields.hasErrors('oldPassword')}">
+                                        <small class="text-danger" th:errors="*{oldPassword}"></small>
+                                    </th:block>
+                                </div>
+                            </div>
+
+
+                            <div class="input-group mt-3">
+                                <label for="password" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Нова парола</label>
+                                <input name="password" type="password" class="form-control validate"
+                                       id="password" placeholder="Enter new password">
+                                <div class="mx-auto">
+                                    <th:block th:if="${#fields.hasErrors('password')}">
+                                        <small class="text-danger" th:errors="*{password}"></small>
+                                    </th:block>
+                                </div>
+                            </div>
+                            <div class="input-group mt-3">
+                                <label for="confirmPassword" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Потвърди парола</label>
+                                <input name="confirmPassword" type="password" class="form-control validate"
+                                       id="confirmPassword" placeholder="Confirm password">
+                            </div>
+                            <div class="input-group mt-3">
+                                <label for="email"
+                                       class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Имейл</label>
+                                <input name="email" type="text" class="form-control validate" id="email"
+                                       placeholder="Enter email" th:value="*{email}">
+                            </div>
+                            <div class="mx-auto text-center">
+                                <th:block th:if="${#fields.hasErrors('email')}">
+                                    <small class="text-danger" th:errors="*{email}"></small>
+                                </th:block>
+                            </div>
+
+                            <div class="input-group mt-3">
+                                <button type="submit" class="btn btn-primary d-inline-block mx-auto">Редактирай</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<footer class="row">
+    <th:block th:include="~{/fragments/footer}"></th:block>
+</footer>
+</body>
+
+</html>

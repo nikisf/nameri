@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+
+</head>
+
+<body id="reportsPage">
+<div class="" id="home">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-xl navbar-light bg-light rounded">
+                    <th:block th:include="~{/fragments/nav}"></th:block>
+                </nav>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="container">
+            <div class="row tm-mt-big">
+                <div class="col-lg-12 col-md-12 mb-4">
+                    <div class="bg-white tm-block h-100">
+                        <div class="row">
+                            <div class="col-8">
+                                <h2 class="tm-block-title d-inline-block">Моите обяви в работа</h2>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover mx-auto text-center" id="table_id">
+                                <thead>
+                                <tr>
+                                    <th>Добавено на</th>
+                                    <th>Валидно до</th>
+                                    <th>Снимка</th>
+                                    <th>Заглавие</th>
+                                    <th>Редактиране</th>
+                                    <th>Изтриване</th>
+                                    <th>Подновяване</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="r : ${realEstates}">
+                                    <tr>
+                                        <td th:text="${r.addedOn}"></td>
+                                        <td th:text="${r.expireOn}"></td>
+                                        <td>
+                                            <a class="image-link" th:href="${r.imageUrl}">
+                                                <img th:src="${r.imageUrl}" width="40" height="40"
+                                                     alt="realEstate">
+                                            </a>
+                                        </td>
+                                        <td th:text="${r.title}"></td>
+                                        <td><a th:href="@{/real-estates/edit/{id}(id=${r.id})}"
+                                               class="btn btn-success font-weight-bold text-white">Редактирай</a></td>
+                                        <td><a th:href="@{/real-estates/delete/{id}(id=${r.id})}"
+                                               class="btn btn-dark font-weight-bold text-white">Изтрий</a></td>
+                                        <th:block th:if="${r.active} == false">
+                                            <td><a th:href="@{/real-estates/renew/{id}(id=${r.id})}"
+                                                   class="btn btn-info font-weight-bold text-white">Поднови</a></td>
+                                        </th:block>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <footer class="row">
+            <th:block th:include="~{/fragments/footer}"></th:block>
+        </footer>
+    </div>
+</div>
+</body>
+
+</html>

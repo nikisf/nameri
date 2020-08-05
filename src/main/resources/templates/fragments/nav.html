@@ -1,0 +1,55 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+    <a class="navbar-brand" href="/home">
+        <img src="/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+        Намери
+    </a>
+    <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto">
+            <div sec:authorize="hasRole('ADMIN')">
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/all">Всички потребители</a>
+                </li>
+            </div>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2"
+                   role="button" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">
+                    Добави обява
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/vehicles/add">Превозни средства</a>
+                    <a class="dropdown-item" href="/real-estates/add">Недвижими имоти</a>
+                    <a class="dropdown-item" href="/jobs/add">Работа</a>
+
+                </div>
+            </li>
+
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="/ads">Обяви</a>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="/users/profile">Профил</a>
+            </li>
+
+        </ul>
+        <ul class="navbar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link d-flex" href="/logout">
+                    <span>Излез</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</th:block>

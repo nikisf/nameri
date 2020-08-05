@@ -1,0 +1,32 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <a class="navbar-brand" href="/">
+        <img src="/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+         Намери
+    </a>
+    <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto">
+        </ul>
+        <ul class="navbar-nav">
+            <th:block th:unless="${#httpServletRequest.getRequestURI() == '/users/login'}">
+            <li class="nav-item">
+                <a class="nav-link d-flex" th:href="@{/users/login}">
+                    <span>Вход</span>
+                </a>
+            </li>
+            </th:block>
+            <th:block th:unless="${#httpServletRequest.getRequestURI() == '/users/register'}">
+            <li class="nav-item">
+                <a class="nav-link d-flex" th:href="@{/users/register}">
+                    <span>Регистрация</span>
+                </a>
+            </li>
+            </th:block>
+        </ul>
+    </div>
+</th:block>

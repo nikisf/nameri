@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+   <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+
+<body id="reportsPage">
+<div class="" id="home">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-xl navbar-light bg-light rounded">
+                  <th:block th:include="~{/fragments/nav}"></th:block>
+                </nav>
+            </div>
+        </div>
+        <!-- row -->
+      <br>
+        <div class="card text-center">
+            <div class="card-header">
+                Превозни средства
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Автомобили, Джипове, Бусове, Камиони, Мотоциклети, Селскостопански, Индустриални, Кари, Каравани</h5>
+                <a href="/vehicles/add" class="btn btn-primary">Добави обява</a>
+            </div>
+
+        </div>
+
+    <br>
+        <div class="card text-center">
+            <div class="card-header">
+                Работа
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Всякакви обяви за работа</h5>
+                <p class="card-text"></p>
+                <a href="/jobs/add" class="btn btn-primary">Добави обява</a>
+            </div>
+        </div>
+
+        <br>
+        <div class="card text-center">
+            <div class="card-header">
+                Недвижими имоти
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Офиси, Магазини, Апартаменти, Складове, Хотели, Къщи, Гаражи</h5>
+                <p class="card-text"></p>
+                <a href="/real-estates/add" class="btn btn-primary">Добави обява</a>
+            </div>
+        </div>
+
+        </div>
+        <footer class="row">
+           <th:block th:include="~{/fragments/footer}"></th:block>
+        </footer>
+    </div>
+</div>
+</body>
+</html>

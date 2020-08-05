@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+
+</head>
+
+<body id="reportsPage">
+<div class="" id="home">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-xl navbar-light bg-light rounded">
+                    <th:block th:include="~{/fragments/nav}"></th:block>
+                </nav>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="container">
+            <div class="row tm-mt-big">
+                <div class="col-lg-12 col-md-12 mb-4">
+                    <div class="bg-white tm-block h-100">
+                        <div class="row">
+                            <div class="col-8">
+                                <h2 class="tm-block-title d-inline-block">Всички потребители</h2>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover mx-auto text-center" id="table_id">
+                                <thead>
+                                <tr>
+                                    <th>Потребител</th>
+                                    <th>Имейл адрес</th>
+                                    <th>Потребител</th>
+                                    <th>Модератор</th>
+                                    <th>Админ</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="u : ${users}">
+                                    <tr>
+                                        <td th:text="${u.username}"></td>
+                                        <td th:text="${u.email}"></td>
+                                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                            <th:block th:if="${#lists.size(u.authorities) == 2}">
+                                                <td class="text-center">
+                                                    <form th:action="@{/users/set-user/{id}(id=${u.id})}" method="post">
+                                                        <button class="btn btn-dark btn-width">Потребител</button>
+                                                    </form>
+                                                </td>
+                                                <td>Модератор</td>
+                                                <td class=" text-center">
+                                                    <form th:action="@{/users/set-admin/{id}(id=${u.id})}" method="post">
+                                                        <button class="btn btn-dark btn-width">Админ</button>
+                                                    </form>
+                                                </td>
+                                            </th:block>
+
+                                        <th:block th:if="${#lists.size(u.authorities) == 1}">
+                                            <td>Потребител</td>
+                                            <td class="text-center">
+                                                <form th:action="@{/users/set-moderator/{id}(id=${u.id})}" method="post">
+                                                    <button class="btn btn-dark btn-width">Модератор</button>
+                                                </form>
+                                            </td>
+                                            <td class="text-center">
+                                                <form th:action="@{/users/set-admin/{id}(id=${u.id})}" method="post">
+                                                    <button class="btn btn-dark btn-width">Админ</button>
+                                                </form>
+                                            </td>
+                                        </th:block>
+                                        <th:block th:if="${#lists.size(u.authorities) == 3}">
+                                            <td class="text-center">
+                                                <form th:action="@{/users/set-user/{id}(id=${u.id})}" method="post">
+                                                    <button class="btn btn-dark btn-width">Потребител</button>
+                                                </form>
+                                            </td>
+                                            <td class="text-center">
+                                                <form th:action="@{/users/set-moderator/{id}(id=${u.id})}" method="post">
+                                                    <button class="btn btn-dark btn-width">Модератор</button>
+                                                </form>
+                                            </td>
+                                            <td>Админ</td>
+                                        </th:block>
+                                        </th:block>
+                                    </tr>
+
+                                </th:block>
+                                <!---->
+                                <!-- <th:block th:each="users, iter : ${users}">
+                                     <tr class="row mx-auto">
+                                         <th  th:utext="${iter.index + 1}"></th>
+                                         <td  th:utext="${users.username}"></td>
+                                         <td th:utext="${users.email}"></td>
+                                         <th:block th:each="authorities : ${users.authorities}">
+                                             <td class="col-md-2 text-center"
+                                                 th:utext="${authorities.authority}">
+                                             </td>
+                                         </th:block>
+
+                                         <th:block sec:authorize="hasRole('ROLE_ROOT')">
+                                             <th:block th:if="${#lists.size(users.authorities) == 2}">
+                                                 <td class="col-md-3 text-center">
+                                                     <form th:action="@{/users/set-user/{id}(id=${users.id})}" method="post">
+                                                         <button class="btn btn-dark btn-width">USER</button>
+                                                     </form>
+                                                 </td>
+                                             </th:block>
+                                         </th:block>
+
+                                         <th:block th:if="${#lists.size(users.authorities) == 1}">
+                                             <td class="col-md-3 text-center">
+                                                 <form th:action="@{/users/set-admin/{id}(id=${users.id})}" method="post">
+                                                     <button class="btn btn-dark btn-width">ADMIN</button>
+                                                 </form>
+                                             </td>
+                                         </th:block>
+                                     </tr>
+                                 </th:block>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <footer class="row">
+            <th:block th:include="~{/fragments/footer}"></th:block>
+        </footer>
+    </div>
+</div>
+</body>
+</html>

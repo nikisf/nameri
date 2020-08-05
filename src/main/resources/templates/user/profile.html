@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+
+<body id="reportsPage">
+<div class="" id="home">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-xl navbar-light bg-light rounded">
+                    <th:block th:include="~{/fragments/nav}"></th:block>
+                </nav>
+            </div>
+        </div>
+        <!-- row -->
+        <div class="container">
+            <div class="row justify-content-center tm-mt-big">
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="bg-white tm-block h-100" id="user-profile">
+                        <p class="h1 text-center text-black">Потребителски профил</p>
+                        <div class="row">
+
+                            <div class="col col-md-12 text-center mt-2">
+                                <h4 th:utext="|Потребител: &lt;br /&gt;  ${model.username} |"></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-md-12 text-center mt-3">
+                                <h4 th:utext="|Имейл: &lt;br /&gt; ${model.email}|"></h4>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-md-12 text-center mt-3">
+                                <a th:href="@{/my-vehicles}">Моите обяви в Превозни средства</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-md-12 text-center mt-3">
+                                <a th:href="@{/my-real-estates}">Моите обяви в Недвижими имоти</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-md-12 text-center mt-3">
+                                <a th:href="@{/my-jobs}">Моите обяви в Работа</a>
+                            </div>
+                        </div>
+
+
+                        <div class="button-holder d-flex justify-content-center mt-3">
+                            <a th:href="@{/users/edit-profile}" class="btn btn-dark">Редактиране</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    <footer class="row">
+        <th:block th:include="~{/fragments/footer}"></th:block>
+    </footer>
+</div>
+</div>
+</body>
+</html>

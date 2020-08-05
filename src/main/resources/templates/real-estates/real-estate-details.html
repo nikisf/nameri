@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <th:block th:include="~{/fragments/head}"></th:block>
+</head>
+
+<body>
+<div class="container">
+    <div class="row rounded">
+        <div class="col-12">
+            <nav class="navbar navbar-expand-xl navbar-light bg-light rounded">
+                <th:block th:include="~{/fragments/nav}"></th:block>
+            </nav>
+        </div>
+    </div>
+    <!-- row -->
+    <main class="container fill">
+        <th:block th:object="${realEstateViewModel}">
+            <div class="row tm-mt-big justify-content-center">
+                <div class="col-xl-8 col-lg-10 col-md-12 col-sm-12">
+                    <div class="bg-white tm-block">
+                        <div class="text-center ">
+                            <img th:src="${realEstateViewModel.image}" class="rounded img-fluid mx-auto d-block"
+                                 alt="image">
+                            <div class="row justify-content-center">
+                                <div class="col col-md-6 mt-2 ">
+                                    <table class="table rounded table-responsive-xl text-center" id="table_id">
+                                        <tr>
+                                            <th scope="row">Вид</th>
+                                            <td th:text="${realEstateViewModel.realEstateType}"></td>
+                                            <th scope="row">Регион:</th>
+                                            <td th:text="${realEstateViewModel.region}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Площ</th>
+                                            <td th:text="${realEstateViewModel.area}"></td>
+                                            <th scope="row">Цена:</th>
+                                            <td th:text="${realEstateViewModel.price}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Телефон за контакт:</th>
+                                            <td th:text="${realEstateViewModel.phoneNumber}"></td>
+                                        </tr>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                            <th:block th:unless="${realEstateViewModel.description} == ''">
+                                <div class="row justify-content-center">
+                                    <strong>Допълнителна Информация:</strong>
+                                    <p class="font-weight-bold max-lines" id="textarea">[[*{description}]]
+                                    </p>
+                                </div>
+                            </th:block>
+                            <div sec:authorize="hasRole('MODERATOR')">
+                                <div class="pt-5">
+                                    <a th:href="@{/real-estates/edit/{id}(id=${realEstateViewModel.id})}"
+                                       class="btn btn-success mr-xl-5 font-weight-bold text-white">Редактирай</a>
+                                    <a th:href="@{/real-estates/delete/{id}(id=${realEstateViewModel.id})}"
+                                       class="btn btn-danger font-weight-bold text-black">Изтрий</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </th:block>
+
+    </main>
+    <footer class="row">
+        <th:block th:include="~{/fragments/footer}"></th:block>
+    </footer>
+</div>
+
+</body>
+
+</html>

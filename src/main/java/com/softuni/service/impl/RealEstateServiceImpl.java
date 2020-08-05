@@ -2,7 +2,6 @@ package com.softuni.service.impl;
 
 import com.softuni.exception.RealEstateNotFoundException;
 import com.softuni.model.entity.RealEstate;
-import com.softuni.model.entity.Vehicle;
 import com.softuni.model.service.RealEstateServiceModel;
 import com.softuni.model.service.UserServiceModel;
 import com.softuni.repository.RealEstateRepository;

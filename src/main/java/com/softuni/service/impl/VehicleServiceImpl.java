@@ -1,9 +1,7 @@
 package com.softuni.service.impl;
 
 import com.softuni.exception.VehicleNotFoundException;
-import com.softuni.model.entity.Job;
 import com.softuni.model.entity.Vehicle;
-import com.softuni.model.service.JobServiceModel;
 import com.softuni.model.service.UserServiceModel;
 import com.softuni.model.service.VehicleServiceModel;
 import com.softuni.repository.VehicleRepository;

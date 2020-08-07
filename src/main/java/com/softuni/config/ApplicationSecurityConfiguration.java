@@ -18,7 +18,8 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf()
-                .disable()
+                .csrfTokenRepository(csrfTokenRepository())
+                .and()
                 .authorizeRequests()
                 .antMatchers("/index", "/", "/users/login", "/users/register").anonymous()
                 .antMatchers("/js/**", "/css/**", "/img/**").permitAll()
@@ -32,6 +33,12 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .and()
                 .logout()
                 .logoutSuccessUrl("/index");
+    }
+
+    private CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setSessionAttributeName("_csrf");
+        return repository;
     }
 
 

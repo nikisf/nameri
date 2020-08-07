@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import static com.softuni.Constants.Constants.*;
 
-public class UserRegisterBindingModel {
+public class UserRegisterBindingModel extends BaseBindingModel {
     private String username;
     private String password;
     private String confirmPassword;

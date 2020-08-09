@@ -46,16 +46,14 @@ public class JobController {
     @PostMapping("/add")
     @PreAuthorize("isAuthenticated()")
     public ModelAndView addConfirm(@Valid @ModelAttribute("jobAddBindingModel") JobAddBindingModel jobAddBindingModel,
-                                   BindingResult bindingResult, Principal principal, ModelAndView modelAndView) throws IOException {
+                                   BindingResult bindingResult, Principal principal, ModelAndView modelAndView) {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("jobAddBindingModel", jobAddBindingModel);
             modelAndView.setViewName("jobs/job-add");
             return modelAndView;
         }
         String name = principal.getName();
-        System.out.println();
         JobServiceModel jobServiceModel = this.modelMapper.map(jobAddBindingModel, JobServiceModel.class);
-        System.out.println();
         this.jobService.addJob(jobServiceModel, name);
         modelAndView.setViewName("redirect:/ads");
         return modelAndView;

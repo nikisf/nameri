@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 import static com.softuni.Constants.Constants.*;
 
-public class BaseOfferServiceModel extends BaseServiceModel {
+public abstract class BaseOfferServiceModel extends BaseServiceModel {
 
     private String title;
     private String description;

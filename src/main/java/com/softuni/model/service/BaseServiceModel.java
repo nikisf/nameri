@@ -1,6 +1,6 @@
 package com.softuni.model.service;
 
-public class BaseServiceModel {
+public abstract class BaseServiceModel {
 
     private String id;
 

@@ -5,7 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-public class BaseOfferViewModel extends BaseViewModel {
+public abstract class BaseOfferViewModel extends BaseViewModel {
 
     private String title;
     private String description;

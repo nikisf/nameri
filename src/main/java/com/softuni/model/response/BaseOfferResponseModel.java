@@ -2,7 +2,7 @@ package com.softuni.model.response;
 
 import java.time.LocalDate;
 
-public class BaseOfferResponseModel extends BaseResponseModel {
+public abstract class BaseOfferResponseModel extends BaseResponseModel {
     private String title;
     private String description;
     private LocalDate addedOn;

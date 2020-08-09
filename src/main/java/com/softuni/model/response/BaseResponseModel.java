@@ -1,6 +1,6 @@
 package com.softuni.model.response;
 
-public class BaseResponseModel {
+public abstract class BaseResponseModel {
     private String id;
 
     public BaseResponseModel() {

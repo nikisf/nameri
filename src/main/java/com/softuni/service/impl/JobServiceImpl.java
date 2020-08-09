@@ -95,9 +95,8 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<JobServiceModel> findAllJobsForUsername(String username) {
-        List<JobServiceModel> jobs = this.jobRepository.findAllByUsername(username).stream()
+        return this.jobRepository.findAllByUsername(username).stream()
                 .map(job -> this.modelMapper.map(job, JobServiceModel.class)).collect(Collectors.toList());
-        return jobs;
     }
 
     @Override
@@ -108,7 +107,7 @@ public class JobServiceImpl implements JobService {
         if (jobServiceModel.getUser().getUsername().equals(auth.getName()) || auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
 
             if (LocalDate.now().compareTo(jobServiceModel.getExpireOn()) > 0) {
-                jobServiceModel.setExpireOn(jobServiceModel.getExpireOn().plus(10, ChronoUnit.DAYS));
+                jobServiceModel.setExpireOn(LocalDate.now().plus(10, ChronoUnit.DAYS));
                 jobServiceModel.setAddedOn(LocalDate.now());
                 jobServiceModel.setActive(true);
                 jobServiceModel.setJobLevel(job.getJobLevel().name());

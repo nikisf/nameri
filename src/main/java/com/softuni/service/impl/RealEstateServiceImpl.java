@@ -105,7 +105,7 @@ public class RealEstateServiceImpl implements RealEstateService {
         if (realEstateServiceModel.getUser().getUsername().equals(auth.getName()) || auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
 
             if (LocalDate.now().compareTo(realEstateServiceModel.getExpireOn()) > 0) {
-                realEstateServiceModel.setExpireOn(realEstateServiceModel.getExpireOn().plus(10, ChronoUnit.DAYS));
+                realEstateServiceModel.setExpireOn(LocalDate.now().plus(10, ChronoUnit.DAYS));
                 realEstateServiceModel.setAddedOn(LocalDate.now());
                 realEstateServiceModel.setActive(true);
                 realEstateServiceModel.setRealEstateType(realEstate.getRealEstateType().name());

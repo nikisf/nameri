@@ -8,10 +8,6 @@ public class UserAlreadyExistsException extends RuntimeException{
 
     private int status;
 
-    public UserAlreadyExistsException() {
-        this.status = 409;
-    }
-
     public UserAlreadyExistsException(String message) {
         super(message);
         this.status = 409;

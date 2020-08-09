@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class JobNotFoundException extends RuntimeException{
     private int status;
 
-    public JobNotFoundException() {
-        this.status = 404;
-    }
 
     public JobNotFoundException(String message) {
         super(message);

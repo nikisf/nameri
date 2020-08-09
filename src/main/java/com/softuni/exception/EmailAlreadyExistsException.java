@@ -8,9 +8,6 @@ public class EmailAlreadyExistsException extends RuntimeException {
 
     private int status;
 
-    public EmailAlreadyExistsException() {
-        this.status = 409;
-    }
 
     public EmailAlreadyExistsException(String message) {
         super(message);

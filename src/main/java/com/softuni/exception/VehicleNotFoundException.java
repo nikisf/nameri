@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class VehicleNotFoundException extends RuntimeException {
     private int status;
 
-    public VehicleNotFoundException() {
-        this.status = 404;
-    }
 
     public VehicleNotFoundException(String message) {
         super(message);

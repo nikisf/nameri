@@ -7,10 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class RealEstateNotFoundException extends RuntimeException{
     private int status;
 
-    public RealEstateNotFoundException() {
-        this.status = 404;
-    }
-
     public RealEstateNotFoundException(String message) {
         super(message);
         this.status = 404;

@@ -103,13 +103,13 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public void renew(String id) {
-        Vehicle vehicle = this.vehicleRepository.findById(id).orElseThrow(() -> new VehicleNotFoundException(JOB_NOT_FOUND));
+    public VehicleServiceModel renew(String id) {
+        Vehicle vehicle = this.vehicleRepository.findById(id).orElseThrow(() -> new VehicleNotFoundException(VEHICLE_NOT_FOUND));
         VehicleServiceModel vehicleServiceModel = this.modelMapper.map(vehicle, VehicleServiceModel.class);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (vehicleServiceModel.getUser().getUsername().equals(auth.getName()) || auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_MODERATOR"))) {
             if (LocalDate.now().compareTo(vehicleServiceModel.getExpireOn()) > 0) {
-                vehicleServiceModel.setExpireOn(vehicleServiceModel.getExpireOn().plus(10, ChronoUnit.DAYS));
+                vehicleServiceModel.setExpireOn(LocalDate.now().plus(10, ChronoUnit.DAYS));
                 vehicleServiceModel.setAddedOn(LocalDate.now());
                 vehicleServiceModel.setActive(true);
                 vehicleServiceModel.setEngine(vehicle.getEngine().name());
@@ -121,6 +121,7 @@ public class VehicleServiceImpl implements VehicleService {
         } else {
             throw new AccessDeniedException(ACCESS_DENIED);
         }
+        return vehicleServiceModel;
     }
 
     @Override

@@ -21,7 +21,7 @@ public interface VehicleService {
 
     List<VehicleServiceModel> findAllVehiclesForUsername(String username);
 
-    void renew (String id);
+    VehicleServiceModel renew (String id);
 
     void saveAll(List<VehicleServiceModel> vehicles);
 }

@@ -115,7 +115,8 @@ public class UserServiceImpl implements UserService {
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority("ROLE_ADMIN"));
             this.saveLog(userServiceModel.getUsername(), "set Admin role", LocalDateTime.now());
         }
-        this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, User.class));
+         user = this.modelMapper.map(userServiceModel,User.class);
+        this.userRepository.saveAndFlush(user);
     }
 
     @Override

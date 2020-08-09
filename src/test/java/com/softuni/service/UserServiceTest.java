@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -34,21 +35,24 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
-    private User user;
-    private Role role;
+    User testUser;
+    User admin;
+    Role roleUser;
+     Role roleAdmin;
+     Role roleMod;
     @Mock
-    private UserRepository userRepository;
-    private ModelMapper modelMapper;
+    UserRepository userRepository;
+    ModelMapper modelMapper;
     @Mock
-    private ModelMapper fakeModelMapper;
-    private BCryptPasswordEncoder encoder;
+    ModelMapper fakeModelMapper;
+    BCryptPasswordEncoder encoder;
 
     @Mock
-    private RoleService roleService;
+    RoleService roleService;
     @Mock
-    private RoleRepository roleRepository;
+    RoleRepository roleRepository;
     @Mock
-    private LogService logService;
+    LogService logService;
     UserService userService;
     @Mock
     UserServiceModel userModel;
@@ -60,17 +64,21 @@ public class UserServiceTest {
     public void setupTest() {
         this.modelMapper = new ModelMapper();
         encoder = new BCryptPasswordEncoder();
-        user = new User();
-        user.setUsername("name");
-        user.setEmail("email@email.bg");
-        user.setPassword("1");
-        user.setId("test");
-        role = new Role();
-        Role role1 = new Role();
-        role.setAuthority("USER");
-        role.setId("testRole");
-        role1.setAuthority("ROLE_ADMIN");
-        user.setAuthorities(Set.of(role, role1));
+        roleUser = new Role();
+        roleAdmin = new Role();
+        admin = new User();
+        roleMod = new Role();
+        testUser = new User();
+        testUser.setUsername("name");
+        testUser.setEmail("email@email.bg");
+        testUser.setPassword("1");
+        testUser.setId("test");
+        this.roleUser.setAuthority("ROLE_USER");
+
+        roleMod.setAuthority("ROLE_MODERATOR");
+        roleUser.setId("testRole");
+        roleAdmin.setAuthority("ROLE_ADMIN");
+        testUser.setAuthorities(Set.of(roleUser, roleAdmin));
         userModel = new UserServiceModel();
         roleService = new RoleServiceImpl(roleRepository, modelMapper);
         userService = new UserServiceImpl(this.userRepository, modelMapper, encoder, roleService, logService);
@@ -81,9 +89,9 @@ public class UserServiceTest {
 
     @Test
     public void getUserByUsername_ShouldReturnUser() {
-        Mockito.when(this.userRepository.findByUsername("name")).thenReturn(Optional.ofNullable(this.user));
+        Mockito.when(this.userRepository.findByUsername("name")).thenReturn(Optional.ofNullable(this.testUser));
 
-        User expected = this.user;
+        User expected = this.testUser;
         User actual = this.modelMapper.map(userService.findByUsername("name"), User.class);
         Assert.assertEquals(expected.getUsername(), actual.getUsername());
         Assert.assertEquals(expected.getEmail(), actual.getEmail());
@@ -94,8 +102,8 @@ public class UserServiceTest {
 
     @Test
     public void getUserById_ShouldReturnUser() {
-        Mockito.when(this.userRepository.findById("test")).thenReturn(Optional.ofNullable(this.user));
-        User expected = this.user;
+        Mockito.when(this.userRepository.findById("test")).thenReturn(Optional.ofNullable(this.testUser));
+        User expected = this.testUser;
         User actual = this.modelMapper.map(userService.findById("test"), User.class);
 
         Assert.assertEquals(expected.getUsername(), actual.getUsername());
@@ -107,9 +115,9 @@ public class UserServiceTest {
 
     @Test
     public void shouldReturnAllUsers() {
-        Mockito.when(this.userRepository.findAll()).thenReturn(List.of(user));
+        Mockito.when(this.userRepository.findAll()).thenReturn(List.of(testUser));
 
-        List<User> expected = List.of(user);
+        List<User> expected = List.of(testUser);
 
         List<User> actual = userService.findAllUsers();
         Assert.assertEquals(expected.get(0).getId(), actual.get(0).getId());
@@ -128,6 +136,7 @@ public class UserServiceTest {
 
     @Test
     public void registerUserSuccess() {
+
         userModel.setUsername("name1");
         userModel.setEmail("email1@email.bg");
         userModel.setId("tt1t4");
@@ -136,8 +145,6 @@ public class UserServiceTest {
         role.setAuthority("ROLE_USER");
         role.setId("testRole");
 
-        when(this.userRepository.saveAndFlush(Mockito.any(User.class)))
-                .thenReturn(new User());
 
         this.userService.registerUser(userModel);
 
@@ -160,41 +167,89 @@ public class UserServiceTest {
 
     @Test
     public void ShouldThrowExceptionIfUserIsNotAdmin() {
-        role.setAuthority("ROLE_ADMIN");
-        authToken = new TestingAuthenticationToken(user.getUsername(), user.getPassword());
+        roleUser.setAuthority("ROLE_ADMIN");
+        authToken = new TestingAuthenticationToken(testUser.getUsername(), testUser.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authToken);
         Assert.assertThrows(AccessDeniedException.class, () -> this.userService.setRoleToUser("test", "ROLE_ADMIN"));
     }
 
     @Test
     public void ShouldThrowExceptionIfAdminTryToChangeHisPermission() {
-        authToken = new TestingAuthenticationToken(user.getUsername(), user.getPassword(), "ROLE_ADMIN");
+        authToken = new TestingAuthenticationToken(testUser.getUsername(), testUser.getPassword(), "ROLE_ADMIN");
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
-        when(this.userRepository.findById(user.getId())).thenReturn(Optional.ofNullable(user));
-        Assert.assertThrows(IllegalArgumentException.class, () -> this.userService.setRoleToUser(user.getId(), "ROLE_ADMIN"));
+        when(this.userRepository.findById(testUser.getId())).thenReturn(Optional.ofNullable(testUser));
+        Assert.assertThrows(IllegalArgumentException.class, () -> this.userService.setRoleToUser(testUser.getId(), "ROLE_ADMIN"));
     }
 
     @Test
-    public void shouldSetUserRoleToUser(){
+    public void shouldSetAdminRoleToUser(){
         User admin = new User();
         admin.setId("123");
         authToken = new TestingAuthenticationToken(admin.getUsername(), admin.getPassword(), "ROLE_ADMIN");
         SecurityContextHolder.getContext().setAuthentication(authToken);
-        when(this.userRepository.findById(user.getId())).thenReturn(Optional.ofNullable(this.user));
-        when(this.roleRepository.findByAuthority("ROLE_USER")).thenReturn(role);
-        
-        when(this.roleService.findByAuthority("ROLE_USER")).thenReturn(new RoleServiceModel());
-        userService.setRoleToUser(user.getId(), "user");
-       int size = user.getAuthorities().size();
-        System.out.println();
-        Assert.assertEquals(user.getAuthorities().size(), 2);
+        when(this.userRepository.findById(testUser.getId())).thenReturn(Optional.ofNullable(this.testUser));
+        when(this.roleRepository.findByAuthority(anyString())).thenReturn(new Role());
+        User newUser = new User();
+        newUser.setAuthorities(Set.of(roleUser, roleAdmin, roleMod));
+        when(this.userRepository.saveAndFlush(Mockito.any(User.class)))
+                .thenReturn(newUser);
+        userService.setRoleToUser(testUser.getId(), "admin");
+        Assert.assertEquals(3,newUser.getAuthorities().size());
+    }
 
+    @Test
+    public void shouldSetModeratorRoleToUser(){
+        User admin = new User();
+        admin.setId("123");
+        authToken = new TestingAuthenticationToken(admin.getUsername(), admin.getPassword(), "ROLE_ADMIN");
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+        when(this.userRepository.findById(testUser.getId())).thenReturn(Optional.ofNullable(this.testUser));
+        when(this.roleRepository.findByAuthority(anyString())).thenReturn(new Role());
+        User newUser = new User();
+        newUser.setAuthorities(Set.of(roleUser, roleMod));
+        when(this.userRepository.saveAndFlush(Mockito.any(User.class)))
+                .thenReturn(newUser);
+        userService.setRoleToUser(testUser.getId(), "moderator");
+        Assert.assertEquals(2,newUser.getAuthorities().size());
+    }
 
+    @Test
+    public void shouldSetUserRoleToUser(){
 
+        authToken = new TestingAuthenticationToken(admin.getUsername(), admin.getPassword(), "ROLE_ADMIN");
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+        when(this.userRepository.findById(testUser.getId())).thenReturn(Optional.ofNullable(this.testUser));
+        when(this.roleRepository.findByAuthority(anyString())).thenReturn(new Role());
+        User newUser = new User();
+        newUser.setAuthorities(Set.of(roleUser));
+        when(this.userRepository.saveAndFlush(Mockito.any(User.class)))
+                .thenReturn(newUser);
+        userService.setRoleToUser(testUser.getId(), "user");
+        Assert.assertEquals(1,newUser.getAuthorities().size());
+    }
 
+    @Test
+    public void shouldThrowExceptionWhenYouTryToEditOtherProfile(){
+        UserServiceModel user = new UserServiceModel();
+        admin.setUsername("oes");
+        user.setId("123");
+        user.setUsername("asd");
+        authToken = new TestingAuthenticationToken(admin.getUsername(), admin.getPassword(), "ROLE_ADMIN");
+        SecurityContextHolder.getContext().setAuthentication(authToken);
 
+        Assert.assertThrows(AccessDeniedException.class, () -> this.userService.editUserProfile(user, "pass"));
+    }
 
+    @Test
+    public void shouldThrowExceptionWhenPasswordNotMatch(){
+        UserServiceModel user = new UserServiceModel();
+        user.setUsername("asd");
+        admin.setUsername("asd");
+        authToken = new TestingAuthenticationToken(admin.getUsername(), admin.getPassword(), "ROLE_ADMIN");
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+        Mockito.when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(new User()));
+        Assert.assertThrows(IllegalArgumentException.class, () -> this.userService.editUserProfile(user, "pass"));
     }
 
 
